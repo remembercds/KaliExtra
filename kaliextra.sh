@@ -1,19 +1,23 @@
 #!/bin/sh
 
-### Install Depedencies ###
-apt update -y
-apt upgrade -y
-apt dist-upgrade -y
-apt install dialog -y
-
 
 ### Functions ###
 
 error() { clear; printf "ERROR:\\n%s\\n" "$1"; exit;}
 
 welcomemsg() { \
+	apt install dialog -y
         dialog --title "Welcome!" --msgbox "Welcome to The's Kali Extra  Script!\\n\\nThis script will automatically make your Kali Extra!" 10 60
         }
+
+installdepedencies(){
+dialog --infobox "Installing Updates and Depedencies..." 4 50
+apt install dialog -y
+apt update -y
+apt upgrade -y
+apt dist-upgrade -y
+}
+
 
 getuserandpass() { \
         # Figure out how to automatically make this root
@@ -47,6 +51,28 @@ adduserandpass() { \
         echo "$name:$pass1" | chpasswd
 unset pass1 pass2 ;}
 
+installwallpaper(){	
+        dialog --infobox "Installing Cooler Wallpaper..." 4 50
+	# change the shitty wallpaper
+	wget http://hdqwalls.com/wallpapers/kali-linux-nethunter-5k-bw.jpg >/dev/null 2>&1 
+	gsettings set org.gnome.desktop.background picture-uri "/root/KaliExtra/kali-linux-nethunter-5k-bw.jpg"
+}
+
+installextrahacking(){	
+        dialog --infobox "Installing Extra Hacker tools..." 4 50
+	# Extra Programs [[broken, wont install shodan, code in option to put in own shodan API]
+	pip install shodan >/dev/null 2>&1   
+	shodan init L83UCjPivz7TFnxQeb8J6h88cPi9xiXM 
+	apt install ranger -y
+
+}
+
+
+finalize(){ \
+	dialog --infobox "Preparing welcome message..." 4 50
+#	echo "exec_always --no-startup-id notify-send -i ~/.scripts/larbs.png 'Welcome to LARBS:' 'Press Super+F1 for the manual.' -t 10000"  >> "/home/$name/.config/i3/config"
+	dialog --title "All done!" --msgbox "Congrats! Provided there were no hidden errors, the script completed successfully and all the programs and configuration files should be in place.\\n\\nTo run the new graphical environment, log out and log back in as your new user, then run the command \"startx\" to start the graphical environment (it will start automatically in tty1).\\n\\n.t Luke" 12 80
+}
 
 
 
@@ -56,33 +82,35 @@ unset pass1 pass2 ;}
 
 
 # Welcome you
-welcomemsg
+#welcomemsg
+
+#installdepedencies
 
 # Get user and pass
-getuserandpass
+#getuserandpass
 
 # Give warning if user already exists.
-usercheck || error "User exited."
+#usercheck || error "User exited."
 
 # Last chance for user to back out before install.
-preinstallmsg || error "User exited."
+#preinstallmsg || error "User exited."
 
 ### The rest of the script requires no user input.
 
-adduserandpass || error "Error adding username and/or password."
+#adduserandpass || error "Error adding username and/or password."
+
+# Install extra hacking programs
+installextrahacking
 
 
+# Finishing Touches
+installwallpaper
 
+# Last Screen
+finalize
 
 
 ### Extra ###
-
-# change the shitty wallpaper
-# Wallpaper
-wget https://i.imgur.com/vX7ul7v.jpg
-
-gsettings set org.gnome.desktop.background picture-uri "/root/vX7ul7v.jpg"
-
 ################# all this needs to be echo'd into a cronjob or something to get it to start on boot
 
 # Turn off auto-suspend
@@ -91,12 +119,9 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 # Switch esc and caps
 setxkbmap -option caps:swapescape
 
-# Set MAC to random burned in mimic 
-macchanger -br eth0 
+# Set MAC to random burned in mimic, this is breaking internet now for some reason
+#macchanger -br eth0 
 
 ############################################################################
 
-# Extra Programs [[broken, wont install shodan, code in option to put in own shodan API]
-pip install shodan 
-shodan init L83UCjPivz7TFnxQeb8J6h88cPi9xiXM 
-apt install ranger -y
+
