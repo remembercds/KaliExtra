@@ -1,6 +1,9 @@
 #!/bin/sh
 
 ### Install Depedencies ###
+apt update -y
+apt upgrade -y
+apt dist-upgrade -y
 apt install dialog -y
 
 
@@ -47,8 +50,15 @@ unset pass1 pass2 ;}
 
 
 
+
+### Start of Script ###
+
+
+
+# Welcome you
 welcomemsg
 
+# Get user and pass
 getuserandpass
 
 # Give warning if user already exists.
@@ -60,3 +70,33 @@ preinstallmsg || error "User exited."
 ### The rest of the script requires no user input.
 
 adduserandpass || error "Error adding username and/or password."
+
+
+
+
+
+### Extra ###
+
+# change the shitty wallpaper
+# Wallpaper
+wget https://i.imgur.com/vX7ul7v.jpg
+
+gsettings set org.gnome.desktop.background picture-uri "/root/vX7ul7v.jpg"
+
+################# all this needs to be echo'd into a cronjob or something to get it to start on boot
+
+# Turn off auto-suspend
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+# Switch esc and caps
+setxkbmap -option caps:swapescape
+
+# Set MAC to random burned in mimic 
+macchanger -br eth0 
+
+############################################################################
+
+# Extra Programs [[broken, wont install shodan, code in option to put in own shodan API]
+pip install shodan 
+shodan init L83UCjPivz7TFnxQeb8J6h88cPi9xiXM 
+apt install ranger -y
