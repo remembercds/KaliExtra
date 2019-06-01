@@ -60,11 +60,18 @@ installwallpaper(){
 
 installextrahacking(){	
         dialog --infobox "Installing Extra Hacker tools..." 4 50
-	# Extra Programs [[broken, wont install shodan, code in option to put in own shodan API]
 	pip install shodan >/dev/null 2>&1   
 	shodan init L83UCjPivz7TFnxQeb8J6h88cPi9xiXM 
-	apt install ranger -y
+	apt install ranger gpsd -y >/dev/null 2>&1 
 
+}
+
+bootonstartup(){
+        dialog --infobox "Adding things to start on bootup..." 4 50
+	# Switch esc and caps
+	echo "setxkbmap -option caps:swapescape" >> ~/.bashrc
+	# Turn off auto-suspend
+	echo "sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target" >> ~/.bashrc
 }
 
 
@@ -104,24 +111,17 @@ installextrahacking
 
 
 # Finishing Touches
-installwallpaper
+#installwallpaper
+
+#Boot on startup
+#bootonstartup
 
 # Last Screen
 finalize
 
 
-### Extra ###
-################# all this needs to be echo'd into a cronjob or something to get it to start on boot
 
-# Turn off auto-suspend
-sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
-# Switch esc and caps
-setxkbmap -option caps:swapescape
 
-# Set MAC to random burned in mimic, this is breaking internet now for some reason
-#macchanger -br eth0 
-
-############################################################################
 
 
