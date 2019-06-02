@@ -61,7 +61,8 @@ installwallpaper(){
 installextrahacking(){
         dialog --infobox "Installing Extra Hacker tools..." 4 50
 	pip install shodan >/dev/null 2>&1
-	shodan init L83UCjPivz7TFnxQeb8J6h88cPi9xiXM
+	shodanapi=$(dialog --inputbox "Please paste(ctrl+shift+v) in an Shodan API key or just leave blank." 10 60 3>&1 1>&2 2>&3 3>&1)
+	shodan init $shodanapi
 	apt install ranger gpsd -y >/dev/null 2>&1
 	git clone https://github.com/Und3rf10w/kali-anonsurf.git
 	cd kali-anonsurf
@@ -85,7 +86,12 @@ vimrc(){
 	cd Vimrc
 	mv .vimrc ~/.vimrc
 	cd ..
+}
 
+vpngate(){
+        dialog --infobox "Configuring vpngate client..." 4 50
+	git clone https://github.com/Dragon2fly/vpngate-with-proxy.git
+	sed -i '29s/.*/    ifconfig eth0 down/' vpngate-with-proxy/user_script.sh.tmp
 }
 
 finalize(){ \
@@ -119,10 +125,13 @@ finalize(){ \
 #adduserandpass || error "Error adding username and/or password."
 
 # Install extra hacking programs
-#installextrahacking
+installextrahacking
 
 # Configure vimrc.
-vimrc
+#vimrc
+
+# Slightly modified vpngate client.
+#vpngate
 
 # Finishing Touches.
 #installwallpaper
