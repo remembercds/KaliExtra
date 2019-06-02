@@ -7,7 +7,6 @@ On any Kali machine, run this:
 ```
 git clone https://github.com/remembercds/KaliExtra.git
 cd KaliExtra/
-chmod +x KaliExtra.sh
 ./KaliExtra.sh
 ```
 
