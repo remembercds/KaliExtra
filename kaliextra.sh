@@ -5,6 +5,9 @@
 
 error() { clear; printf "ERROR:\\n%s\\n" "$1"; exit;}
 
+# to ensure not dpkg errors pop up
+killall apt
+
 welcomemsg() { \
 	apt install dialog -y
         dialog --title "Welcome!" --msgbox "Welcome to The's Kali Extra  Script!\\n\\nThis script will automatically make your Kali Extra!" 10 60
