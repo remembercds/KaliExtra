@@ -51,18 +51,23 @@ adduserandpass() { \
         echo "$name:$pass1" | chpasswd
 unset pass1 pass2 ;}
 
-installwallpaper(){	
+installwallpaper(){
         dialog --infobox "Installing Cooler Wallpaper..." 4 50
 	# change the shitty wallpaper
-	wget http://hdqwalls.com/wallpapers/kali-linux-nethunter-5k-bw.jpg >/dev/null 2>&1 
+	wget http://hdqwalls.com/wallpapers/kali-linux-nethunter-5k-bw.jpg >/dev/null 2>&1
 	gsettings set org.gnome.desktop.background picture-uri "/root/KaliExtra/kali-linux-nethunter-5k-bw.jpg"
 }
 
-installextrahacking(){	
+installextrahacking(){
         dialog --infobox "Installing Extra Hacker tools..." 4 50
-	pip install shodan >/dev/null 2>&1   
-	shodan init L83UCjPivz7TFnxQeb8J6h88cPi9xiXM 
-	apt install ranger gpsd -y >/dev/null 2>&1 
+	pip install shodan >/dev/null 2>&1
+	shodan init L83UCjPivz7TFnxQeb8J6h88cPi9xiXM
+	apt install ranger gpsd -y >/dev/null 2>&1
+	git clone https://github.com/Und3rf10w/kali-anonsurf.git
+	cd kali-anonsurf
+	chmod +x installer.sh
+	./installer.sh
+	cd ..
 
 }
 
@@ -74,6 +79,14 @@ bootonstartup(){
 	echo "sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target" >> ~/.bashrc
 }
 
+vimrc(){
+        dialog --infobox "Configuring .vimrc..." 4 50
+	git clone https://github.com/remembercds/Vimrc.git
+	cd Vimrc
+	mv .vimrc ~/.vimrc
+	cd ..
+
+}
 
 finalize(){ \
 	dialog --infobox "Preparing welcome message..." 4 50
@@ -84,13 +97,13 @@ finalize(){ \
 
 
 
-### Start of Script ###
+### Calling all functions ###
 
 
-
-# Welcome you
+# Welcome user.
 #welcomemsg
 
+# Install dialogue
 #installdepedencies
 
 # Get user and pass
@@ -102,18 +115,19 @@ finalize(){ \
 # Last chance for user to back out before install.
 #preinstallmsg || error "User exited."
 
-### The rest of the script requires no user input.
-
+# Adding user name and password.
 #adduserandpass || error "Error adding username and/or password."
 
 # Install extra hacking programs
-installextrahacking
+#installextrahacking
 
+# Configure vimrc.
+vimrc
 
-# Finishing Touches
+# Finishing Touches.
 #installwallpaper
 
-#Boot on startup
+# Boot on startup.
 #bootonstartup
 
 # Last Screen
