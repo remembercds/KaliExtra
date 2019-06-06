@@ -83,12 +83,11 @@ bootonstartup(){
 	echo "sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target" >> ~/.bashrc
 }
 
-vimrc(){
+dotfiles(){
         dialog --infobox "Configuring .vimrc..." 4 50
-	git clone https://github.com/remembercds/Vimrc.git
-	cd Vimrc
-	mv .vimrc ~/.vimrc
-	cd ..
+	git clone https://github.com/remembercds/bobs-dot-files.git
+	shopt -s dotglob 
+	cp bobs-dot-files/* /root
 }
 
 vpngate(){
@@ -99,7 +98,6 @@ vpngate(){
 
 finalize(){ \
 	dialog --infobox "Preparing welcome message..." 4 50
-#	echo "exec_always --no-startup-id notify-send -i ~/.scripts/larbs.png 'Welcome to LARBS:' 'Press Super+F1 for the manual.' -t 10000"  >> "/home/$name/.config/i3/config"
 	dialog --title "All done!" --msgbox "Congrats! Provided there were no hidden errors, the script completed successfully and all the programs and configuration files should be in place.\\n\\nTo run the new graphical environment, log out and log back in as your new user, then run the command \"startx\" to start the graphical environment (it will start automatically in tty1).\\n\\n.t Luke" 12 80
 }
 
@@ -110,37 +108,37 @@ finalize(){ \
 
 
 # Welcome user.
-#welcomemsg
+welcomemsg
 
 # Install dialogue
-#installdepedencies
+installdepedencies
 
 # Get user and pass
-#getuserandpass
+getuserandpass
 
 # Give warning if user already exists.
-#usercheck || error "User exited."
+usercheck || error "User exited."
 
 # Last chance for user to back out before install.
-#preinstallmsg || error "User exited."
+preinstallmsg || error "User exited."
 
 # Adding user name and password.
-#adduserandpass || error "Error adding username and/or password."
+adduserandpass || error "Error adding username and/or password."
 
 # Install extra hacking programs
 installextrahacking
 
-# Configure vimrc.
-#vimrc
+# Configure dotfiles.
+dotfiles
 
 # Slightly modified vpngate client.
-#vpngate
+vpngate
 
 # Finishing Touches.
-#installwallpaper
+installwallpaper
 
 # Boot on startup.
-#bootonstartup
+bootonstartup
 
 # Last Screen
 finalize
