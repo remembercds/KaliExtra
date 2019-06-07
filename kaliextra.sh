@@ -72,6 +72,7 @@ installextrahacking(){
 	chmod +x installer.sh
 	./installer.sh
 	cd ..
+	gunzip /usr/share/worlists/rockyou.txt.gz
 
 }
 
