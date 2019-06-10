@@ -7,7 +7,7 @@ On any Kali machine, run this:
 ```
 git clone https://github.com/remembercds/KaliExtra.git
 cd KaliExtra/
-./KaliExtra.sh
+./kaliextra.sh
 ```
 
 ## But why?
