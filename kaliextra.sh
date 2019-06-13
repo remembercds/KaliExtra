@@ -72,7 +72,7 @@ installextrahacking(){
 	chmod +x installer.sh
 	./installer.sh
 	cd ..
-	gunzip /usr/share/worlists/rockyou.txt.gz
+	gunzip /usr/share/wordlists/rockyou.txt.gz
 	apt install gobuster -y
 
 }
