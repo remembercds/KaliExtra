@@ -5,7 +5,7 @@
 
 error() { clear; printf "ERROR:\\n%s\\n" "$1"; exit;}
 
-# to ensure not dpkg errors pop up
+# To ensure not dpkg errors pop up.
 killall apt
 
 welcomemsg() { \
@@ -23,7 +23,7 @@ apt dist-upgrade -y
 
 
 getuserandpass() { \
-        # Figure out how to automatically make this root
+        # To-Do: Figure out how to automatically make this root.
         name=$(dialog --inputbox "First, set a root password, please type 'root'." 10 60 3>&1 1>&2 2>&3 3>&1) || exit
         while ! echo "$name" | grep "root" >/dev/null 2>&1; do
                 name=$(dialog --no-cancel --inputbox "Username not valid. Please type root." 10 60 3>&1 1>&2 2>&3 3>&1)
@@ -56,7 +56,6 @@ unset pass1 pass2 ;}
 
 installwallpaper(){
         dialog --infobox "Installing Cooler Wallpaper..." 4 50
-	# change the shitty wallpaper
 	wget http://hdqwalls.com/wallpapers/kali-linux-nethunter-5k-bw.jpg >/dev/null 2>&1
 	gsettings set org.gnome.desktop.background picture-uri "/root/KaliExtra/kali-linux-nethunter-5k-bw.jpg"
 }
@@ -79,9 +78,9 @@ installextrahacking(){
 
 bootonstartup(){
         dialog --infobox "Adding things to start on bootup..." 4 50
-	# Switch esc and caps
+	# Switch esc and caps.
 	echo "setxkbmap -option caps:swapescape" >> ~/.bashrc
-	# Turn off auto-suspend
+	# Turn off auto-suspend.
 	echo "sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target" >> ~/.bashrc
 }
 
@@ -112,10 +111,10 @@ finalize(){ \
 # Welcome user.
 welcomemsg
 
-# Install dialogue
+# Install dialogue.
 installdepedencies
 
-# Get user and pass
+# Get user and pass.
 getuserandpass
 
 # Give warning if user already exists.
@@ -127,7 +126,7 @@ preinstallmsg || error "User exited."
 # Adding user name and password.
 adduserandpass || error "Error adding username and/or password."
 
-# Install extra hacking programs
+# Install extra hacking programs.
 installextrahacking
 
 # Configure dotfiles.
@@ -142,7 +141,7 @@ installwallpaper
 # Boot on startup.
 bootonstartup
 
-# Last Screen
+# Last Screen.
 finalize
 
 
